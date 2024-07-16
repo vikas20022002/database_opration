@@ -1,0 +1,249 @@
+/* Fonts */
+@font-face {
+    font-family: "Poppins-SemiBold";
+    src: url(../font/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: "Poppins-Bold";
+    src: url(../fonts/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Poppins-MediumItalic";
+    src: url(../fonts/Poppins-MediumItalic.ttf);
+}
+
+/* Fonts */
+
+/* master page */
+/* nec */
+
+body {
+    background-color: #eeeeee;
+}
+
+a {
+    text-decoration: none;
+}
+
+.crud-btn {
+    padding: 3px;
+    border: 2px solid #ffffff;
+    background-color: #000000;
+    color: #ffff00;
+    border-radius: 8px;
+}
+
+.crud-btn:hover {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    color: #000000;
+}
+
+.we {
+    width: 100%;
+    background-color: #000000;
+}
+
+.nav {
+    font-family: "Poppins-SemiBold";
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none !important;
+}
+
+.nav:hover {
+    color: #000000 !important;
+    background-color: #ffffff;
+    border-radius: 14px;
+}
+
+.nav-link:active {
+    color: #ffffff !important;
+}
+
+/* master page */
+
+/* index page */
+.heading {
+    font-family: "Poppins-Bold";
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+/* index page */
+
+/* PRODUCT PAGE */
+
+.T-1 {
+    margin-top: 20px;
+}
+
+.table {
+    border-color: #000000;
+}
+
+.btn-div {
+    margin-top: 100px;
+}
+
+.btn {
+    font-family: "Poppins-Bold";
+    font-size: 20px;
+    color: #000000;
+    background-color: #ffff00;
+    border: 2px solid #ffffff !important;
+    border-radius: 14px;
+}
+
+.btn:hover {
+    border: 2px solid #000000 !important;
+    background-color: #ffff00;
+    color: #000000;
+}
+
+.font {
+    font-family: "Poppins-Bold";
+    font-size: 20px;
+    color: #000000;
+}
+
+.form-control {
+    border: 1px solid #000000;
+}
+
+.form-check-input {
+    border: 1px solid #000000
+}
+
+.d-button {
+    background-color: darkgrey;
+}
+
+/* PRODUCT PAGE */
+.ui-datepicker .ui-datepicker-header {
+    background-color: red;
+    color: #ffffff;
+}
+
+label {
+    color: red;
+}
+
+#addofferusingform label {
+    font-family: "Poppins-Bold";
+    font-size: 20px;
+    color: #000000;
+}
+
+.pr {
+    padding-top: 10px;
+    margin-top: 30px;
+    width: 100%;
+    height: 100%;
+}
+
+.no {
+    font-family: "Poppins-Bold";
+    margin: 20px !important;
+    font-size: 25px;
+    color: #000000;
+}
+
+.name {
+    font-family: "Poppins-Bold";
+    color: #000000;
+    font-size: 20px;
+    margin-left: 15px;
+    padding: 5px;
+}
+
+.bo {
+    --bs-card-border-width: none !important
+}
+
+.pr-row {
+    height: 3px;
+}
+
+.img {
+    width: 290px;
+    height: 150px;
+}
+
+.about {
+    font-family: "Poppins-MediumItalic";
+    font-size: 18px;
+    color: #000000;
+    margin-left: 15px;
+    margin-bottom: 20px;
+    margin-top: 7px;
+}
+
+.read {
+    font-family: "Poppins-SemiBold";
+    font-size: 17px;
+}
+
+.slider-img {
+    height: 250px;
+    width: 464px !important;
+}
+
+.arrow-1 {
+    position: relative;
+    right: 60px;
+    top: 120px;
+    z-index: 1;
+}
+
+.arrow-2 {
+    position: relative;
+    right: 90px;
+    top: 120px;
+    z-index: 1;
+}
+
+.prev-1 {
+    cursor: pointer;
+}
+
+.next-1 {
+    cursor: pointer;
+}
+
+.car-img {
+    height: 215px;
+    width: 400px;
+}
+
+.car {
+    margin-top: 90px;
+}
+
+/* Hide the dropdown by default */
+.nav-item .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Show the dropdown on hover */
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+/* Optional: Additional styling for dropdown items */
+.dropdown-item {
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+

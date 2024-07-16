@@ -1,0 +1,104 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+REGISTRATION
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}  
+
+  <h1 class="text-center heading">Registration</h1>
+  <form id="loginform" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="first_name" class="form-label font">* NAME</label>
+      <input type="text" class="form-control" id="first_name" name="first_name" value="" placeholder="Enter Name">
+    </div>
+  
+    <div class="mb-3">
+      <label for="email" class="form-label font">* Eamil</label>
+      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+        placeholder="Enter Email Id">
+    </div>
+    <div class="mb-3">
+      <label for="password1" class="form-label font">* Password</label>
+      <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter Password">
+    </div>
+    <div class="mb-3">
+      <label for="password2" class="form-label font">* Confirm Password</label>
+      <input type="password" class="form-control" id="password2" name="password2" placeholder="Enter Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script>
+
+  $(document).ready(function () {
+
+    $("#loginform").validate({
+      rules:
+      {
+        first_name:
+        {
+          required: true
+        },
+        email:
+        {
+          required: true
+        },
+        password1:
+        {
+          required: true,
+          minlength: 5,          
+        },
+        password2:
+        {
+          required:true,
+          equalTo: "#password1",
+          minlength: 5,         
+        },
+      },
+      messages:
+      {
+        first_name:
+        {
+          required: "Plese Enter Name"
+        },
+        email:
+        {
+          required: "Plese Enter Email-Id"
+        },
+        password1:
+        {
+          required: "Plese Enter Password",
+          minlength: "Need 5 Character",
+          
+        },
+        password2:
+        {
+          required: "Enter Password & Confirm Password Must be Same",
+          equalTo: "Enter password & Conform password must be same.",
+          minlength: "Need 5 Character",
+          
+        }
+      },
+    })
+  })
+</script>
+
+{% endblock 'js' %}

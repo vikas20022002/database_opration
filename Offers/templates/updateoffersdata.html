@@ -1,0 +1,104 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+UPDATE OFFERS-DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <div class="text-center">
+    <h1>UPDATE DATA</h1>
+  </div></br></br></br>
+
+  <form class="row g-3" method="POST" id="offersform">
+    {% csrf_token %}
+    <div class="col-md-6">
+      <label for="ofname" class="form-label font">* TITLE</label>
+      <input type="text" class="form-control" id="ofname" name="ofname" value="{{offerdata.offer_name}}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="ofdescription" class="form-label font">* DESCRIPTION</label>
+      <textarea class="form-control" id="ofdescription" name="ofdescription"
+        required>{{offerdata.offer_description}}</textarea>
+    </div>
+    <div class="col-md-6">
+      <label for="ofmax" class="form-label font">* MAX PRICE</label>
+      <input type="text" class="form-control" id="ofmax" name="ofmax" value="{{offerdata.offer_maxvalue}}" required>
+    </div>
+    <div class="col-md-4">
+      <label for="ofmin" class="form-label font">* MIN PRICE</label>
+      <input type="text" class="form-control" id="ofmin" name="ofmin" value="{{offerdata.offer_minvalue}}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="ofdis" class="form-label font">* DISCOUNT</label>
+      <input type="text" class="form-control" id="ofdis" name="ofdis" value="{{offerdata.offer_discount}}" required>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script>
+
+  $(document).ready(function () {
+
+    $("#offersform").validate({
+      rules:
+      {
+        ofname:
+        {
+          required: true
+        },
+        ofdescription:
+        {
+          required: true
+        },
+        ofmax:
+        {
+          required: true
+        },
+        ofmin:
+        {
+          required: true
+        },
+        ofmax:
+        {
+          required: true
+        },
+      },
+      messages:
+      {
+        ofname:
+        {
+          required: "Plese Enter Name"
+        },
+        ofdescription:
+        {
+          required: "Plese Enter Give Information About It"
+        },
+        ofmax:
+        {
+          required: "Plese Enter Max Price"
+        },
+        ofmin:
+        {
+          required: "Plese Enter Min Price"
+        },
+        ofdis:
+        {
+          required: "Plese Enter Value "
+        },
+      },
+    })
+  })
+</script>
+
+{% endblock 'js' %}

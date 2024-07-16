@@ -1,0 +1,71 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+PRODUCT-DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <h1 class="text-center heading">PRODUCT</h1>
+  <div class="d-flex justify-content-end btn-div">
+    <a href="/productform" class="btn btn-primary">Add</a>
+  </div>
+  {% if messages %}
+
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  {% endfor %}
+
+  {% endif %}
+  <table class="table T-1" border="1PX">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">NAME</th>
+        <th scope="col">QUANTITY</th>
+        <th scope="col">IMG - 1</th>
+        <th scope="col">IMG - 2</th>
+        <th scope="col">PRICE</th>
+        <th scope="col">Total</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">Action</th>
+        <th scope="col">UPDATE DATA</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for obj in productData %}
+      <tr>
+        <th scope="row">{{ obj.product_id }}</th>
+        <th scope="row">{{ obj.product_name }}</th>
+        <th scope="row">{{ obj.product_qty }}</th>
+        <th scope="row">
+          <img src="{{ obj.product_img1 }}" width="100" />
+        </th>
+        <th scope="row">
+          <img src="{{ obj.product_img2 }}" width="100" />
+        </th>
+        <th scope="row">{{ obj.full_price }}</th>
+        <th>{{obj.total}}</th>
+        <th scope="row">{{ obj.product_description }}</th>
+        <th>
+          <a href="/deleteproduct/{{ obj.product_id }}" class="crud-btn">Delete</a>
+        </th>
+        <th>
+          <a href="/updateproductdata/{{ obj.product_id }}" class="crud-btn">UPDATE</a>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock 'main' %}

@@ -1,0 +1,267 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+COUPON DATA
+{% endblock 'title' %}
+
+{% block 'css' %}
+<link href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
+{% endblock 'css' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <h1 class="text-center heading">COUPON</h1>
+
+    <div class="alert alert-success alert-dismissible fade show" style="display: none;" role="alert">
+        <strong id="result">Success!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <!-- <p id="result"></p> -->
+            <!-- COUPON FORM -->
+            <form class="row g-3" method="POST" id="coupon" action="/coupondata">
+                {% csrf_token %}
+                <input type="hidden" class="form-control" id="couponid" name="couponid" value="">
+                <div class="col-md-6">
+                    <label for="coupontitle" class="form-label font">* TITLE</label>
+                    <input type="text" class="form-control" id="coupontitle" name="coupontitle" value="">
+                </div>
+                <div class="col-md-6">
+                    <label for="couponcode" class="form-label font">* COUPON CODE</label>
+                    <input type="text" class="form-control" id="couponcode" name="couponcode" value="">
+                </div>
+                <div class="col-md-6">
+                    <label for="validity" class="form-label font">* VALIDITY</label>
+                    <input type="text" class="form-control" autocomplete="off" id="validity" name="validity">
+                </div>
+                <div class="col-md-6">
+                    <label for="nouse" class="form-label font">* NO OF USE</label>
+                    <input type="number" class="form-control" id="nouse" name="nouse" value="">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font">* IS ACTIVE</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="couponactive" value="YES" id="couponactive"
+                            checked>
+                        <label class="form-check-label font" for="flexRadioDefault1">
+                            YES
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="couponactive" value="NO" id="couponactive">
+                        <label class="form-check-label font" for="flexRadioDefault2">
+                            NO
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="coupondescription" class="form-label font">* DESCRIPTION</label>
+                    <textarea class="form-control" id="coupondescription" name="coupondescription"></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+
+            </form>
+            <!-- COUPON FORM -->
+        </div>
+        <div class="col-8">
+            <!-- COUPON TABLE -->
+            <table class="table T-1" border="1PX" id="mytable">
+                <thead>
+                    <tr>
+                        <th scope="col"> COUPON Id</th>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">COUPON CODE</th>
+                        <th scope="col">VALIDITY</th>
+                        <th scope="col">NO Of USE</th>
+                        <th scope="col">IS ACTIVE</th>
+                        <th scope="col">DISCRIPTION</th>
+                        <th scope="col">ACTION</th>
+                        <th scope="col">EDIT</th>
+                    </tr>
+                </thead>
+                <tbody id="output">
+
+                </tbody>
+
+            </table>
+            <!-- COUPON TABLE -->
+        </div>
+    </div>
+</div>
+{% endblock 'main' %}
+
+{% block 'js' %}
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script>
+
+    function getData() {
+        $.ajax({
+            url: "/getCouponData",
+            method: "GET",
+            success: function (json) {
+                var op = "";
+                $.each(json, function (key, obj) {
+
+
+                    var d = obj.coupon_date;
+                    newdate = d.split("-").reverse().join("-");
+
+                    op += "<tr>";
+                    op += "<td>" + obj.coupon_id + "</td>";
+                    op += "<td>" + obj.coupon_title + "</td>";
+                    op += "<td>" + obj.coupon_code + "</td>";
+                    op += "<td>" + newdate + "</td>";
+                    op += "<td>" + obj.coupon_noofuse + "</td>";
+                    op += "<td>" + obj.coupon_active + "</td>";
+                    op += "<td>" + obj.coupon_description + "</td>";
+                    op += "<td><button class='btndelete' data-id='" + obj.coupon_id + "'>Delete</button></td>";
+                    op += "<td><button class='edit' data-id='" + obj.coupon_id + "'>EDIT</button></td>";
+                    op = op + "</tr>";
+
+                });
+                $("#output").html(op);
+                //Datatable
+                let table = new DataTable('#mytable');
+            },
+            error: function (error) {
+                alert("Error = " + error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+
+        getData();
+
+        //delete
+        $(document).on('click', '.btndelete', function () {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "/deleteCouponData",
+                method: "POST",
+                data: { "deleteid": id },
+                success: function (response) {
+                    $(".alert").show();
+                    $("#result").html(response);
+                    getData();
+                },
+                error: function (error) {
+                    alert("Error = " + error);
+                }
+            });
+        });
+
+        $(document).on('click', '.edit', function () {
+            var id = $(this).attr('data-id');
+            $.ajax({
+                url: "/getSingleCouponData",
+                method: "POST",
+                data: { "editid": id },
+                success: function (json) {
+
+                    $("#couponid").val(json[0].coupon_id);
+                    $("#coupontitle").val(json[0].coupon_title);
+                    $("#couponcode").val(json[0].coupon_code);
+                    $("#nouse").val(json[0].coupon_noofuse);
+                    $("#coupondescription").val(json[0].coupon_description);
+                    // Update the radio button
+                    $("input[name='couponactive'][value='" + json[0].coupon_active + "']").prop('checked', true);
+
+                    //Date
+
+                    var d = json[0].coupon_date;
+                    newdate = d.split("-").reverse().join("-");
+                    $("#validity").val(newdate);
+
+
+                },
+                error: function (error) {
+                    alert("Error = " + error);
+                }
+            });
+        });
+
+        //insert/update
+        $("#coupon").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/insertCoupon",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    $(".alert").show();
+                    $("#result").html(response);
+                    $("#coupon")[0].reset();
+                    getData();
+                },
+                error: function (error) {
+                    alert("Error : " + error);
+                }
+            });
+        });
+
+
+
+        $("#coupon").validate({
+            rules:
+            {
+                coupontitle:
+                {
+                    required: true
+                },
+                couponcode:
+                {
+                    required: true
+                },
+                validity:
+                {
+                    required: true
+                },
+                nouse:
+                {
+                    required: true
+                },
+                coupondescription:
+                {
+                    required: true
+                },
+            },
+            messages:
+            {
+                coupontitle:
+                {
+                    required: "Plese Enter Title"
+                },
+                couponcode:
+                {
+                    required: "Plese Enter Valid Coupon Code"
+                },
+                validity:
+                {
+                    required: "Plese select The validity Date"
+                },
+                nouse:
+                {
+                    required: "Plese Enter The Using Number"
+                },
+                coupondescription:
+                {
+                    required: "Plese Enter The Discription"
+                },
+
+            },
+        })
+
+        $("#validity").datepicker({ dateFormat: 'dd-mm-yy' });
+    })
+</script>
+
+{% endblock 'js' %}

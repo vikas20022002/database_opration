@@ -1,0 +1,60 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+CITY DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <h1 class="text-center heading">CITY</h1>
+    <div class="d-flex justify-content-end btn-div">
+        <a href="/cityform" class="btn btn-primary">Add</a>
+    </div>
+
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    <table class="table T-1" border="1PX">
+        <thead>
+            <tr>
+                <th scope="col"> CITY ID</th>
+                <th>STATE NAME</th>
+                <th scope="col">CITY NMAE</th>
+                <th scope="col">CITY IMG</th>
+                <th scope="col">DELETE</th>
+                <th scope="col">UPDATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in citydata %}
+            <tr>
+                <th scope="row">{{ obj.city_id }}</th>
+                <th scope="row">{{ obj.state_id.state_name }}</th>
+                <th scope="row">{{ obj.city_name }}</th>
+                <th scope="row">
+                    <img src="{{ obj.city_img }}" width="100">
+                </th>
+                <th>
+                    <a href="/citydelete/{{ obj.city_id }}" class="crud-btn">Delete</a>
+                </th>
+                <th>
+                    <a href="/cityupdate/{{ obj.city_id }}" class="crud-btn">UPDATE</a>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock 'main' %}

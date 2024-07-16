@@ -1,0 +1,117 @@
+ {% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+UPDATE EMPLOYEE DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <div class="text-center">
+    <h1>UPDATE DATA</h1>
+  </div></br></br></br>
+
+  <form class="row g-3" enctype="multipart/form-data" method="post" id="employeeform">
+    {% csrf_token %}
+    <div class="col-md-6">
+      <label for="textname" class="form-label font">* NAME</label>
+      <input type="text" class="form-control" id="textname" name="textname" value="{{ employeedata.employee_name }}">
+    </div>
+    <div class="col-md-6">
+      <label for="pho1" class="form-label font">* PHOTO-ID</label>
+      <input type="file" class="form-control" id="pho1" name="pho1" value="">
+      <img src="{{ employeedata.employee_photo_id }}" width="100" />
+    </div>
+    <div class="col-md-6">
+      <label for="textsalary" class="form-label font">* SALARY</label>
+      <input type="text" class="form-control" id="textsalary" name="textsalary"
+        value="{{ employeedata.employee_salary}}">
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" {% if employeedata.employee_gender == "male" %} checked {% endif %} type="radio"
+          name="textgender" value="male" id="textgender">
+        <label class="form-check-label font" for="flexRadioDefault1">
+          MALE
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="textgender" {% if employeedata.employee_gender == "female" %}
+          checked {% endif %} value="female" id="textgender">
+        <label class="form-check-label font" for="flexRadioDefault2">
+          FEMALE
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="validationDefault02" class="form-label font">* Department</label>
+      <select class="form-control" name="textdepartment">
+        <option value="">Select Department</option>
+        <option {% if employeedata.employee_department == "Marketing" %} selected {% endif %}>Marketing</option>
+        <option {% if employeedata.employee_department == "H.R" %} selected {% endif %}>H.R</option>
+        <option {% if employeedata.employee_department == "Purchase" %} selected {% endif %}>Purchase</option>
+        <option {% if employeedata.employee_department == "Sales" %} selected {% endif %}>Sales</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="cityid" class="form-label font">* CITY</label>
+      <select class="form-control" id="cityid" name="cityid">
+        <option value="">Select City</option>      
+        {% for obj in citydata %}
+        <option value="{{ obj.city_id }}" {% if obj.city_id == employeedata.city_id.city_id %}selected{% endif %}>{{ obj.city_name }}</option>
+        {% endfor %}        
+      </select>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Update</button>
+    </div>
+  </form>
+</div>
+
+{% endblock 'main' %}
+
+
+{% block 'js' %}
+
+<script>
+
+  $(document).ready(function () {
+
+    $("#employeeform").validate({
+      rules:
+      {
+        textname:
+        {
+          required: true
+        },
+        textsalary:
+        {
+          required: true
+        },
+        textdepartment:
+        {
+          required: true
+        },
+      },
+      messages:
+      {
+        textname:
+        {
+          required: "Plese Enter Name"
+        },
+        textsalary:
+        {
+          required: "Plese Enter Salary"
+        },
+        textdepartment:
+        {
+          required: "Plese Select The Department"
+        }
+      },
+    })
+  })
+</script>
+
+{% endblock 'js' %}

@@ -1,0 +1,65 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+UPDATE CITY DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <div class="text-center">
+        <h1>UPDATE DATA</h1>
+    </div></br></br></br>
+    <form class="row g-3" enctype="multipart/form-data" method="post" id="cityform">
+        {% csrf_token %}
+        <div class="col-md-12">
+            <label id=""></label>
+        </div>
+        <div class="col-md-12">
+            <label for="cityname" class="form-label font">* CATEGORY NAME</label>
+            <input type="text" class="form-control" id="cityname" name="cityname" value="{{ citydata.city_name }}">
+        </div>
+        <div class="col-md-12">
+            <label for="cityimg" class="form-label font">*CATEGORY IMAGE</label>
+            <input type="file" class="form-control" id="cityimg" name="cityimg">
+            <img src="{{ citydata.city_img }}" width="100" />
+
+
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#cityform").validate({
+            rules:
+            {
+                cityname:
+                {
+                    required: true
+                },
+            },
+            messages:
+            {
+                cityimg:
+                {
+                    required: "Please enter name"
+                },
+            }
+        });
+    });
+
+</script>
+{% endblock %}

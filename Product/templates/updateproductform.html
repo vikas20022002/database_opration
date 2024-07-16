@@ -1,0 +1,103 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+UPDATE PRODUCT DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <div class="text-center">
+    <h1>UPDATE DATA</h1>
+  </div></br></br></br>
+
+  <form class="row g-3" method="POST" enctype="multipart/form-data" id="productform">
+    {% csrf_token %}
+    <div class="col-md-6">
+      <label for="txtname" class="form-label font">* NAME</label>
+      <input type="text" class="form-control" id="txtname" name="txtname" value="{{productdata.product_name}}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="txtqty" class="form-label font">* QUANTITY</label>
+      <input type="text" class="form-control" id="txtqty" name="txtqty" value="{{productdata.product_qty}}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="img1" class="form-label font">* IMG - 1</label>
+      <input type="file" class="form-control" id="img1" name="img1">
+      <img src="{{ productdata.product_img1 }}" width="100" />
+    </div>
+    <div class="col-md-6">
+      <label for="img2" class="form-label font">* IMG - 2</label>
+      <input type="file" class="form-control" id="img2" name="img2">
+      <img src="{{ productdata.product_img2 }}" width="100" />
+    </div>
+    <div class="col-md-4">
+      <label for="txtprice" class="form-label font">* PRICE</label>
+      <input type="text" class="form-control" id="txtprice" name="txtprice" value="{{productdata.product_price}}"
+        required>
+    </div>
+    <div class="col-md-6">
+      <label for="txtdescription" class="form-label font">* DESCRIPTION</label>
+      <textarea class="form-control" id="txtdescription" name="txtdescription"
+        required>{{productdata.product_description}}</textarea>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script>
+
+  $(document).ready(function () {
+
+    $("#productform").validate({
+      rules:
+      {
+        txtname:
+        {
+          required: true
+        },
+        txtqty:
+        {
+          required: true
+        },
+        txtprice:
+        {
+          required: true
+        },
+        txtdescription:
+        {
+          required: true
+        }
+      },
+      messages:
+      {
+        txtname:
+        {
+          required: "Plese Enter Name"
+        },
+        txtqty:
+        {
+          required: "Plese Enter Quantity"
+        },
+        txtprice:
+        {
+          required: "Plese Enter Price"
+        },
+        txtdescription:
+        {
+          required: "Plese Give The Information About It"
+        }
+      },
+    })
+  })
+</script>
+
+{% endblock 'js' %}

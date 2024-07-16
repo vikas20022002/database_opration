@@ -1,0 +1,63 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+UPDATE CATEGORY DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <div class="text-center">
+        <h1>UPDATE DATA</h1>
+    </div></br></br></br>
+    <form class="row g-3" enctype="multipart/form-data" method="post" id="categoryform1">
+        {% csrf_token %}
+        <div class="col-md-12">
+            <label id=""></label>
+        </div>
+        <div class="col-md-12">
+            <label for="coname" class="form-label font">* CATEGORY NAME</label>
+            <input type="text" class="form-control" id="coname" name="coname" value="{{ categorydata.category_name }}">
+        </div>
+        <div class="col-md-12">
+            <label for="coimg" class="form-label font">*CATEGORY IMAGE</label>
+            <input type="file" class="form-control" id="coimg" name="coimg">
+            <img src="{{ categorydata.category_img }}" width="100" />
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#categoryform1").validate({
+            rules:
+            {
+                coname:
+                {
+                    required: true
+                },
+            },
+            messages:
+            {
+                coname:
+                {
+                    required: "Please enter name"
+                },
+            }
+        });
+    });
+
+</script>
+{% endblock %}

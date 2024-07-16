@@ -1,0 +1,36 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+PRODUCT-2-DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <h1 class="text-center heading">PRODUCT-2</h1>
+  <div class="row">
+    {% for obj in productData_2 %}
+    <div class="col-3">
+      <div class="card pr">
+        <div>
+          <div class="d-flex ">
+            <div>
+              <img src="media/{{ obj.product_2_img1 }}" class="card-img-top img-fluid img">
+            </div>
+          </div>
+          <div class="pr-row"></div>
+          <a class="name" href="/product_2_data/{{ obj.product_2_id }}">{{ obj.product_2_name }}</a>
+          <p class="about"> Rs. {{ obj.product_2_price }}/-</p>
+          <div class="text-end">
+            <a href="/product_2_data/{{ obj.product_2_id }}" class="read">Read More<sup>+</sup></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock 'main' %} 

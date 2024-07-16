@@ -1,0 +1,137 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+ADD ARTICAL DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <div class="text-center">
+        <h1>INPUT DATA</h1>
+    </div></br></br></br>
+
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    <form class="row g-3" method="post" id="articlsform" action="/articlsform">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="artitle" class="form-label font">* TITLE</label>
+            <input type="text" class="form-control" id="artitle" name="artitle" value="">
+        </div>
+        <div class="col-md-6">
+            <label for="ardescription" class="form-label font">* DESCRIPTION</label>
+            <textarea class="form-control" id="ardescription" name="ardescription"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label font">* IS ACTIVE</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="aractive" value="YES" id="aractive" checked>
+                <label class="form-check-label font" for="flexRadioDefault1">
+                    YES
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="aractive" value="NO" id="aractive">
+                <label class="form-check-label font" for="flexRadioDefault2">
+                    NO
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="arauthors" class="form-label font">* AUTHORS</label>
+            <input type="text" class="form-control" id="arauthors" name="arauthors" value="">
+        </div>
+        <div class="col-md-6">
+            <label for="ardate" class="form-label font">* DATE</label>
+            <input type="text" class="form-control" id="ardate" name="ardate">
+        </div>
+        <div class="col-md-6">
+            <label for="arquote" class="form-label font">* QUOTE</label>
+            <input type="text" class="form-control" id="arquote" name="arquote" value="">
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+{% endblock 'main' %}
+
+
+{% block 'js' %}
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#articlsform").validate({
+            rules:
+            {
+                artitle:
+                {
+                    required: true
+                },
+                ardescription:
+                {
+                    required: true
+                },
+                arauthors:
+                {
+                    required: true
+                },
+                arquote:
+                {
+                    required: true
+                },
+                ardate:
+                {
+                    required: true
+                },
+            },
+            messages:
+            {
+                artitle:
+                {
+                    required: "Plese Enter Title"
+                },
+                ardescription:
+                {
+                    required: "Plese Enter Discription"
+                },
+                arauthors:
+                {
+                    required: "Plese Enter Authors Name"
+                },
+                arquote:
+                {
+                    required: "Plese Enter The Authors Quote"
+                },
+                ardate:
+                {
+                    required: "Plese select The  Date"
+                }
+            },
+        })
+
+        $(function () {
+            $("#ardate").datepicker({
+
+            });
+        });
+    })
+</script>
+
+{% endblock 'js' %}

@@ -1,0 +1,63 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+OFFERS-DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <h1 class="text-center heading">OFFERS</h1>
+    <div class="d-flex justify-content-end">
+        <div class="btn-div">
+            <a href="/addofferusingform" class="btn btn-primary">Add USING FORM</a>
+        </div>
+        <div class="btn-div">
+            <a href="/offersform" class="btn btn-primary">Add</a>
+        </div>
+    </div>
+
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+
+    <table class="table T-1" border="1PX">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">TITLE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">MAX PRICE</th>
+                <th scope="col">MIN PRICE</th>
+                <th scope="col">DISCOUNT</th>
+                <th scope="col">DELETE</th>
+                <th scope="col">UPDATE</th>
+            </tr>
+        </thead>
+
+        {% for obj in offerdata %}
+        <tr>
+            <th scope="row">{{ obj.offer_id }}</th>
+            <th scope="row">{{ obj.offer_name }}</th>
+            <th scope="row">{{ obj.offer_description }}</th>
+            <th scope="row">{{ obj.offers_full_maxvalue }}</th>
+            <th scope="row">{{ obj.offers_full_minvalue }}</th>
+            <th scope="row">{{ obj.offers_full_discount }}</th>
+            <th>
+                <a href="deleteoffers/{{ obj.offer_id }}" class="crud-btn">DELETE</a>
+            </th>
+            <th>
+                <a href="/updateoffersdata/{{ obj.offer_id }}" class="crud-btn">UPDATE</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock 'main' %}

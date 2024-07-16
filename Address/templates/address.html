@@ -1,0 +1,231 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+ADDRESS DATA
+{% endblock 'title' %}
+
+{% block 'css' %}
+<link href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" rel="stylesheet" />
+{% endblock 'css' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <h1 class="text-center heading">ADDRESS</h1>
+
+    <div class="alert alert-success alert-dismissible fade show" style="display: none;" role="alert">
+        <strong id="insert">Success!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <!-- <p id="result"></p> -->
+            <!-- COUPON FORM -->
+            <form class="row g-3" method="POST" id="address" action="/address">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label for="addtitle" class="form-label font">* TITLE</label>
+                    <input type="text" class="form-control" id="addtitle" name="addtitle" value="">
+                </div>
+                <div class="col-md-6">
+                    <label for="addline1" class="form-label font">* ADDRESS LINE.1</label>
+                    <textarea class="form-control" id="addline1" name="addline1"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="addline2" class="form-label font">* ADDRESS LINE.2</label>
+                    <textarea class="form-control" id="addline2" name="addline2"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="addcity" class="form-label font">* CITY</label>
+                    <input type="text" class="form-control" id="addcity" name="addcity" value="">
+                </div>
+                <div class="col-md-6">
+                    <label for="addstate" class="form-label font">* STATE</label>
+                    <input type="text" class="form-control" id="addstate" name="addstate" value="">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font">* TYPE</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="addtype" value="OFFICE" id="addtype" checked>
+                        <label class="form-check-label font" for="flexRadioDefault1">
+                            OFFICE
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="addtype" value="HOME" id="addtype">
+                        <label class="form-check-label font" for="flexRadioDefault2">
+                            HOME
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+
+            </form>
+            <!-- COUPON FORM -->
+        </div>
+        <div class="col-8">
+            <!-- COUPON TABLE -->
+            <table class="table T-1" border="1PX" id="addtable">
+                <thead>
+                    <tr>
+                        <th scope="col"> ADDRESS ID</th>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">ADD LINE.1</th>
+                        <th scope="col">ADD LINE.2</th>
+                        <th scope="col">CITY</th>
+                        <th scope="col">STATE</th>
+                        <th scope="col">TYPE</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="addressoutput">
+
+                </tbody>
+            </table>
+            <!-- COUPON TABLE -->
+        </div>
+    </div>
+</div>
+{% endblock 'main' %}
+
+{% block 'js' %}
+
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script>
+
+
+    function getadressdata() {
+        $.ajax({
+            url: "/getaddresdata",
+            method: 'GET',
+            success: function (json) {
+                // console.log(json);
+                var op = "";
+                $.each(json, function (key, obj) {
+                    op += "<tr>";
+                    op += "<td>" + obj.address_id + "</td>";
+                    op += "<td>" + obj.address_title + "</td>";
+                    op += "<td>" + obj.address_line_1 + "</td>";
+                    op += "<td>" + obj.address_line_2 + "</td>";
+                    op += "<td>" + obj.address_city + "</td>";
+                    op += "<td>" + obj.address_state + "</td>";
+                    op += "<td>" + obj.address_type + "</td>";
+                    op += "<td><button class='btndelete' data-id='" + obj.address_id + "'>Delete</button></td>";
+                    op = op += "</tr>";
+
+                });
+                $("#addressoutput").html(op);
+                //Datatable
+                let table = new DataTable('#addtable');
+
+            },
+            error: function (error) {
+                alert("Error  : " + error);
+            }
+        })
+
+    }
+
+    $(document).ready(function () {
+
+
+        getadressdata();
+
+        $(document).on("click", ".btndelete", function () {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url: "/deleteaddress",
+                method: "POST",
+                data: { "deleteid": id },
+                success: function (response) {
+                    $(".alert").show();
+                    $("#insert").html(response);
+                    getadressdata();
+                },
+                error: function (error) {
+                    alert("Error = " + error);
+                }
+            })
+        });
+
+        $("#address").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/addaddressdata",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    $(".alert").show();
+                    $("#insert").html(response);
+                    $("#address")[0].reset();
+                },
+                error: function (error) {
+                    alert("Error : " + error);
+                }
+            });
+        });
+
+
+
+
+
+        //     $("#address").validate({
+        //         rules:
+        //         {
+        //             addtitle:
+        //             {
+        //                 required: true
+        //             },
+        //             addline1:
+        //             {
+        //                 required: true
+        //             },
+        //             addline2:
+        //             {
+        //                 required: true
+        //             },
+        //             addcity:
+        //             {
+        //                 required: true
+        //             },
+        //             addstate:
+        //             {
+        //                 required: true
+        //             },
+        //         },
+        //         messages:
+        //         {
+        //             addtitle:
+        //             {
+        //                 required: "Plese Enter Title"
+        //             },
+        //             addline1:
+        //             {
+        //                 required: "Plese Enter yor Address"
+        //             },
+        //             addline2:
+        //             {
+        //                 required: "Plese Enter yor Address"
+        //             },
+        //             addcity:
+        //             {
+        //                 required: "Plese Enter Your City Name "
+        //             },
+        //             addstate:
+        //             {
+        //                 required: "Plese Enter Your State Name"
+        //             },
+
+        //         },
+        //     })
+
+
+    })
+</script>
+
+{% endblock 'js' %}

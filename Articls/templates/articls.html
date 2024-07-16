@@ -1,0 +1,64 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+ARTICAL DETA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+    <h1 class="text-center heading">ARTICAL</h1>
+    <div class="d-flex justify-content-end btn-div">
+        <a href="/articlsform" class="btn btn-primary">Add</a>
+    </div>
+
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    <table class="table T-1" border="1PX">
+        <thead>
+            <tr>
+                <th scope="col"> ARTICLES Id</th>
+                <th scope="col">TITLE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">IS ACTIVE</th>
+                <th scope="col">AUTHORS</th>
+                <th scope="col">ARTICLE DATE</th>
+                <th scope="col">QUOTE</th>
+                <th scope="col">DELETE</th>
+                <th scope="col">UPDATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in articaldata %}
+            <tr>
+                <th scope="row">{{ obj.artical_id }}</th>
+                <th scope="row">{{ obj.artical_title }}</th>
+                <th scope="row">{{ obj.artical_description }}</th>
+                <th scope="row">{{ obj.artical_active }}</th>
+                <th scope="row">{{ obj.artical_authors }}</th>
+                <th scope="row">{{ obj.artical_date }}</th>
+                <th scope="row">{{ obj.artical_quote }}</th>
+                <th>
+                    <a href="/articaldelete/{{ obj.artical_id }}" class="crud-btn">Delete</a>
+                </th>
+                <th>
+                    <a href="/updatearticlsdata/{{ obj.artical_id }}" class="crud-btn">UPDATE</a>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock 'main' %}

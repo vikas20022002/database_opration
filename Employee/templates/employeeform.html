@@ -1,0 +1,149 @@
+{% extends 'masterpage.html'%}
+
+{% load static %}
+
+{% block 'title' %}
+ADD EMPLOYEE DATA
+{% endblock 'title' %}
+
+{% block 'main' %}
+
+<div class="container">
+  <div class="text-center">
+    <h1>INPUT DATA</h1>
+  </div></br></br></br>
+  {% if messages %}
+
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  {% endfor %}
+
+  {% endif %}
+  <form class="row g-3" method="post" id="employeeform" enctype="multipart/form-data" action="/employeeform">
+    {% csrf_token %}
+    <div class="col-md-6">
+      <label for="textname" class="form-label font">* NAME</label>
+      <input type="text" class="form-control" id="textname" name="textname" value="">
+    </div>
+    <div class="col-md-6">
+      <label for="pho-1" class="form-label font">* PHOTO-ID</label>
+      <input type="file" class="form-control" id="pho-1" name="pho-1" value="">
+    </div>
+    <div class="col-md-6">
+      <label for="textsalary" class="form-label font">* SALARY</label>
+      <input type="text" class="form-control" id="textsalary" name="textsalary" value="">
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="textgender" value="male" id="textgender" checked  >
+        <label class="form-check-label font" for="flexRadioDefault1">
+          MALE
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="textgender" value="female" id="textgender">
+        <label class="form-check-label font" for="flexRadioDefault2">
+          FEMALE
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="validationDefault02" class="form-label font">* Department</label>
+      <select class="form-control" name="textdepartment">
+        <option value="">Select Department</option>
+        <option>Marketing</option>
+        <option>H.R</option>
+        <option>Purchase</option>
+        <option>Sales</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="stateid" class="form-label font">* STATE</label>
+      <select onchange="loadcity(this.value);" class="form-control" id="stateid" name="stateid">
+        <option value="">Select State</option>
+        {% for obj in statedata %}
+        <option value="{{ obj.state_id }}">{{ obj.state_name }}</option>
+        {% endfor %}
+      </select> 
+    </div>
+    <div class="col-md-6">
+      <label for="cityid" class="form-label font">* CITY</label>
+      <select class="form-control" id="cityid" name="cityid">
+        <option value="">Select City</option>
+
+      </select> 
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>  
+
+{% endblock 'main' %}
+
+
+{% block 'js' %}
+
+<script>
+  
+  function loadcity(stateid) {
+    $.ajax({
+      url: "/citybystate",
+      method: "POST",
+      data: { "stateid": stateid },
+      success: function (json) {
+        var op = "<option value=''>Please select city</option>";
+        $.each(json, function (key, obj) {
+          op += "<option value='" + obj.city_id + "'>" + obj.city_name + "</option>"
+        });
+        $("#cityid").html(op);
+      },
+      error: function (error) { 
+        alert("Error : " + error);
+      }
+    });
+  }
+
+  $(document).ready(function () {
+
+
+    $("#employeeform").validate({
+      rules:
+      {
+        textname:
+        {
+          required: true
+        },
+        textsalary:
+        {
+          required: true
+        },
+        textdepartment:
+        {
+          required: true
+        },
+      },
+      messages:
+      {
+        textname:
+        {
+          required: "Plese Enter Name"
+        },
+        textsalary:
+        {
+          required: "Plese Enter Salary"
+        },
+        textdepartment:
+        {
+          required: "Plese Select The Department"
+        }
+      },
+    })
+  })
+</script>
+
+{% endblock 'js' %}
